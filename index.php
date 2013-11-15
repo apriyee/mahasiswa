@@ -1,0 +1,131 @@
+<?php
+error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
+?>
+
+<head>
+    <title>.:: TELEMATIKA CIO 2013 - INSTITUT TEKNOLOGI SEPULUH NOVEMBER - SURABAYA ::.</title>
+    <link href="styles.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" type="text/css" href="easyui/easyui.css">
+    <link rel="stylesheet" type="text/css" href="easyui/icon.css">
+    <link rel="stylesheet" type="text/css" href="easyui/demos.css">
+    <script type="text/javascript" src="js/jquery-1.6.min.js"></script>
+    <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+
+
+    <script language="JavaScript" type="text/javascript">
+        var d = new Date();
+        var monthname = new Array("Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Augustus", "September", "Oktober", "November", "Desember");
+        var TODAY = "Surabaya, " + d.getDate() + " " + monthname[d.getMonth()] + "  " + d.getFullYear();</script>
+
+    <script type="text/javascript">
+        function confirmation(nrp) {
+            var var_nrp = nrp;
+            var answer = prompt("Data mahasiswa akan di hapus !, silahkan Enter password ")
+            if (answer == '123456') {
+                window.location.href = '?p=daftar&opsi=delete&id=' + nrp;
+            } else {
+                alert("Yah salah .. ulang deh lain!")
+                window.location.href = '?p=daftar';
+            }
+
+        }
+
+        function pesan()
+        {
+            alert('Maaf data tidak bisa di hapus, \n\
+Pastikan tidak ada data terkait yang masih aktif.');
+        }
+
+        function sukses() {
+            alert('Sukses !, data telah berhasil di hapus ');
+        }
+    </script>
+
+
+    <?php
+
+    //nama tabel,fieldid,varcari,fieldhasil
+    function tempel($tabel, $idtabel, $idcari, $hasilcari) {
+        $res_cari = mysql_query("SELECT * FROM $tabel WHERE $idtabel=$idcari");
+        if ($row_cari = mysql_fetch_array($res_cari)) {
+            print $row_cari[$hasilcari];
+        }
+    }
+
+    function ambil($tabel, $idtabel, $idcari, $hasilcari) {
+        $res_cari = mysql_query("SELECT * FROM $tabel WHERE $idtabel=$idcari");
+        if ($row_cari = mysql_fetch_array($res_cari)) {
+            return $row_cari[$hasilcari];
+        }
+    }
+    ?>
+
+    <script language="javascript">
+        function handleEnter(field, event) {
+            var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
+            if (keyCode == 13) {
+                var i;
+                for (i = 0; i < field.form.elements.length; i++)
+                    if (field == field.form.elements[i])
+                        break;
+                i = (i + 1) % field.form.elements.length;
+                field.form.elements[i].focus();
+                return false;
+            }
+            else
+                return true;
+        }
+    </script>
+
+</head>
+
+<body>
+    <table border="0" width="90%" style="padding-top:20px;" align="center">
+        <tr valign="top">
+            <td align="left">
+                <div align="center">
+                    <div id="header">
+                        <div align="left">
+
+                            <div style="text-align: left; padding-left: 30px; padding-top:10px; padding-bottom:10px;">
+                                <h2>SISTEM MANAJEMEN BERBASIS DATA TERDISTRIBUSI</h2>
+                            </div>
+                            <span style="float:right; font-size:11px; padding-right:10px; color:#000066;">
+                                <script language="JavaScript" type="text/javascript">document.write(TODAY);</script></span>
+                        </div>
+                        <div id="nav" align="center">
+                            <ul>
+                                <li><a href="/cioits2013">HALAMAN DEPAN</a></li>
+                                <li><a href="?p=jurusan">JURUSAN</a></li>
+                                <li><a href="?p=bidangstudi">PROGRAM STUDI</a></li>
+                                <li><a href="?p=dosen">DOSEN</a></li>
+                                <li><a href="?p=pelajaran">PELAJARAN</a></li>
+                                <li><a href="?p=daftar">MAHASISWA</a></li>
+                                <li><a href="?p=frs">PENGISIAN FRS</a></li>
+                                <li><a href="?p=daftar_frs">LAP. DAFTAR FRS</a></li>
+                                <li><a href="?p=laporan">LAP. FRS</a></li>
+                            </ul>
+                            <span style="padding-right: 10px; float: right;">
+                            </span>
+                        </div>	
+                        <div id="content">
+                            <?php
+                            if (!$_GET["p"]) {
+                                include "blank.php";
+                            } else {
+                                $pages = $_GET["p"] . ".php";
+                                include "$pages";
+                            }
+                            ?>		
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+    </table>		
+</body>
+</html>
